@@ -1,3 +1,6 @@
+from django.conf import settings
+from django.templatetags.static import static
+from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponse
 from django.template import loader 
@@ -59,4 +62,27 @@ def pago(request):
     return render(request, 'ProyectoWebApp/pago.html', contexto)
 
 
-
+def obtener_productos(request):
+    productos = [
+        {
+            "title": "Canción 1",
+            "artist": "Artista 1",
+            "price": "$12.000",
+            "image": static("static/ProyectoWebApp/img/bajo.jpg")
+        },
+        {
+            "title": "Canción 2",
+            "artist": "Artista 2",
+            "price": "$8.99",
+            "image": static("static/ProyectoWebApp/img/bateria.jpg")
+        },
+        {
+            "title": "Canción 3",
+            "artist": "Artista 3",
+            "price": "$7.99",
+            "image": static("static/ProyectoWebApp/img/guitarra.jpg")
+        },
+        # Resto de los productos...
+    ]
+    
+    return JsonResponse({"productos": productos})
