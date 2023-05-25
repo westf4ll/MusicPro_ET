@@ -10,6 +10,8 @@ urlpatterns = [
     path('blog',views.blog, name="Blog"),
     path('contact',views.contact, name="Contact"),
     path('tienda',views.tienda, name="Tienda"),
+    path('pago',views.pago, name="pago"),
+
 
 ]
 
