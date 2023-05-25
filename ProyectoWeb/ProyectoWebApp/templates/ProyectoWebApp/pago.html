@@ -13,7 +13,13 @@
 
     {% if instancia %}
 
-    
+
+
+
+
+
+
+
     <div class="container p-5">
         <div class="row justify-content-center">
             <div class="list-group col-5">
@@ -59,7 +65,83 @@
         </div>
     </div>
     
+    <div class="col container text-success">
+        <p>Monto a pagar <span id="amount"></span> </p>
+        <form id="convert-form">
+            <label for="conversion-type">Convertir a:</label>
+            <select id="conversion-type">
+                <option value="usd">USD</option>
+                <option value="clp">CLP</option>
+            </select>
+            <input type="submit" value="Convertir">
+        </form>
+        <div id="result"></div>
+    </div>
     
+
+
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var amount = 0;  // Variable para almacenar el monto generado
+            var exchangeRate = 0;  // Variable para almacenar el tipo de cambio
+            
+            function generateRandomAmount() {
+                amount = Math.ceil(Math.random() * 85000) + 15000;  // Generar valor aleatorio por encima de 15,000
+                $('#amount').text(amount.toLocaleString() + ' CLP');  // Mostrar el monto generado
+            }
+            
+            function convertToUSD() {
+                var convertedAmount = Math.round(amount / exchangeRate * 100) / 100;  // Redondear a 2 decimales
+                
+                $('#result').html('<h2>Resultado de la conversión</h2>' +
+                    '<p>Monto original: ' + amount.toLocaleString() + ' CLP</p>' +
+                    '<p>Monto convertido: ' + convertedAmount.toLocaleString() + ' USD</p>');
+            }
+            
+            function convertToCLP() {
+                var convertedAmount = Math.round(amount * exchangeRate);
+                
+                $('#result').html('<h2>Resultado de la conversión</h2>' +
+                    '<p>Monto original: ' + amount.toLocaleString() + ' USD</p>' +
+                    '<p>Monto convertido: ' + convertedAmount.toLocaleString() + ' CLP</p>');
+            }
+            
+            var url = "https://mindicador.cl/api/dolar";
+            
+            // Obtener el tipo de cambio
+            $.get(url, function(data) {
+                if (data && data.serie && data.serie.length > 0) {
+                    exchangeRate = data.serie[0].valor;
+                } else {
+                    $('#result').html('<p>Error en la solicitud de conversión.</p>');
+                }
+            }).fail(function() {
+                $('#result').html('<p>Error en la solicitud de conversión.</p>');
+            });
+            
+            // Generar el monto aleatorio al cargar la página
+            generateRandomAmount();
+            
+            // Manejar el envío del formulario
+            $('#convert-form').submit(function(e) {
+                e.preventDefault();
+                
+                var conversionType = $('#conversion-type').val();
+                
+                if (conversionType === 'usd') {
+                    convertToUSD();
+                } else if (conversionType === 'clp') {
+                    convertToCLP();
+                }
+            });
+            
+            // Manejar el botón "Generar nuevo monto"
+            $('#generate-amount-btn').click(function() {
+                generateRandomAmount();
+            });
+        });
+    </script>
 
     {% endif %}
 
