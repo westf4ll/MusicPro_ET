@@ -1,0 +1,27 @@
+{
+    "productos": [
+      {
+        "title": "Canción 1",
+        "artist": "Artista 1",
+        "price": "$12.000"
+      },
+      {
+        "title": "Canción 2",
+        "artist": "Artista 2",
+        "price": "$8.99",
+        "image":""
+      },
+      {
+        "title": "Canción 3",
+        "artist": "Artista 3",
+        "price": "$7.99"
+      },
+      {
+        "title": "Canción 4",
+        "artist": "Artista 4",
+        "price": "$6.99"
+      }
+    ]
+  }
+  
+  

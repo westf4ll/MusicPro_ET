@@ -3,40 +3,55 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-
-    <div style="float:right;">
-
-    </div>
-
-    <div class="row">
-
-{% for producto in productos %} 
-
-    <div class="col-md-4">
-
-    <div class="card" style="width: 100%; margin: 5px 5px;">
-
-        <img src="{{producto.imagen.url}}" class="card-img-top">
-
-        <div class="card-body" style="text-align: center;">
-
-            <h7 class="card-title">{{producto.nombre}}</h7>
-            <p class="card-text">{{producto.precio}}&nbsp;$</p>
-
-        </div>
-
-        <div class="card-footer text-center">
-            <a href="#" class="btn btn-success">Agregar al carro</a>
-
-        </div>
-
-    </div>
+<div class="container text-center">
+<button id="loadProductsButton" class="bg-black">Cargar Productos</button>
+<div class="product-list text-white" id="productList"></div>    
 </div>
 
+<script>
+    // Obtener referencia al botón
+    const loadProductsButton = document.getElementById('loadProductsButton');
 
+    // Agregar evento click al botón
+    loadProductsButton.addEventListener('click', () => {
+        // Carga del archivo JSON
+        fetch('/static/ProyectoWebApp/productos.json')
+            .then(response => response.json())
+            .then(data => {
+                const productListElement = document.getElementById('productList');
+                const productos = data.productos;
 
-{% endfor%}
-    </div>
-</div>
+                // Limpiar el contenido previo del listado
+                productListElement.innerHTML = '';
+
+                // Recorrer los productos y crear las tarjetas
+                productos.forEach(producto => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+
+                    const title = document.createElement('h3');
+                    title.textContent = producto.title;
+
+                    const artist = document.createElement('p');
+                    artist.textContent = 'Artista: ' + producto.artist;
+
+                    const price = document.createElement('p');
+                    price.textContent = 'Precio: ' + producto.price;
+
+                    const image = document.createElement('img');
+                    image.className = 'product-image';
+                    image.src = producto.image;
+                    image.alt = producto.title;
+
+                    productCard.appendChild(title);
+                    productCard.appendChild(artist);
+                    productCard.appendChild(price);
+                    productCard.appendChild(image);
+
+                    productListElement.appendChild(productCard);
+                });
+            })
+            .catch(error => console.error(error));
+    });
+</script>
 {% endblock %}
