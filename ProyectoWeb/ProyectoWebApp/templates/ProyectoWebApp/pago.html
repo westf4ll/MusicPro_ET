@@ -66,7 +66,7 @@
     </div>
     
     <div class="col container text-success">
-        <p>Monto a pagar <span id="amount"></span> </p>
+        <p>Monto a pagar: <span id="amount"></span></p>
         <form id="convert-form">
             <label for="conversion-type">Convertir a:</label>
             <select id="conversion-type">
@@ -75,12 +75,13 @@
             </select>
             <input type="submit" value="Convertir">
         </form>
-        <div id="result"></div>
+        <div id="result-usd"></div>
+        <div id="result-clp"></div>
     </div>
     
 
 
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             var amount = 0;  // Variable para almacenar el monto generado
@@ -94,17 +95,17 @@
             function convertToUSD() {
                 var convertedAmount = Math.round(amount / exchangeRate * 100) / 100;  // Redondear a 2 decimales
                 
-                $('#result').html('<h2>Resultado de la conversión</h2>' +
-                    '<p>Monto original: ' + amount.toLocaleString() + ' CLP</p>' +
-                    '<p>Monto convertido: ' + convertedAmount.toLocaleString() + ' USD</p>');
+                $('#result-clp').hide();  // Ocultar monto original en CLP
+                $('#result-usd').html('<h2>Resultado de la conversión</h2>' +
+                    '<p>Monto convertido: ' + convertedAmount.toLocaleString() + ' USD</p>').show();
             }
             
             function convertToCLP() {
                 var convertedAmount = Math.round(amount * exchangeRate);
                 
-                $('#result').html('<h2>Resultado de la conversión</h2>' +
-                    '<p>Monto original: ' + amount.toLocaleString() + ' USD</p>' +
-                    '<p>Monto convertido: ' + convertedAmount.toLocaleString() + ' CLP</p>');
+                $('#result-usd').hide();  // Ocultar monto original en USD
+                $('#result-clp').html('<h2>Resultado de la conversión</h2>' +
+                    '<p>Monto convertido: ' + convertedAmount.toLocaleString() + ' CLP</p>').show();
             }
             
             var url = "https://mindicador.cl/api/dolar";
@@ -114,10 +115,12 @@
                 if (data && data.serie && data.serie.length > 0) {
                     exchangeRate = data.serie[0].valor;
                 } else {
-                    $('#result').html('<p>Error en la solicitud de conversión.</p>');
+                    $('#result-usd').html('<p>Error en la solicitud de conversión.</p>').show();
+                    $('#result-clp').html('<p>Error en la solicitud de conversión.</p>').show();
                 }
             }).fail(function() {
-                $('#result').html('<p>Error en la solicitud de conversión.</p>');
+                $('#result-usd').html('<p>Error en la solicitud de conversión.</p>').show();
+                $('#result-clp').html('<p>Error en la solicitud de conversión.</p>').show();
             });
             
             // Generar el monto aleatorio al cargar la página
