@@ -4,6 +4,7 @@ from django.template import loader
 from datetime import datetime as dt
 from datetime import timedelta
 import random
+import requests
 
 from transbank.error.transbank_error import TransbankError
 from transbank.webpay.webpay_plus.transaction import Transaction
@@ -30,6 +31,8 @@ def tienda(request):
     
     return render(request, "ProyectoWebApp/tienda.html")
 
+
+#transbank
 def pago(request):
 
     buy_order = str(random.randrange(1000000, 99999999))
@@ -54,3 +57,6 @@ def pago(request):
     #4051 8842 3993 7763
 
     return render(request, 'ProyectoWebApp/pago.html', contexto)
+
+
+
