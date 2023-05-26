@@ -5,77 +5,83 @@
 {% block content %}
 
 <div class="container">
-  <div class="row">
-      <div class="col text-center text-white">
-          <button id="loadProductsButton" class="btn btn-primary">Mostrar Productos</button>
-      </div>
-  </div>
-  <div id="productList" class="row mt-4">
+    <div class="row">
+        <div class="col text-center text-white">
+            <button id="loadProductsButton" class="btn btn-primary">Mostrar Productos</button>
+        </div>
+    </div>
+    <div id="productList" class="row mt-4">
 
-  </div>
+    </div>
 </div>
 
 <script>
-  // Obtener referencia al botón
-  const loadProductsButton = document.getElementById('loadProductsButton');
+    // Obtener referencia al botón
+    const loadProductsButton = document.getElementById('loadProductsButton');
 
-  // Agregar evento click al botón
-  loadProductsButton.addEventListener('click', () => {
-      // Carga del archivo JSON
-      fetch('/static/ProyectoWebApp/productos.json')                                                 
-          .then(response => response.json())
-          .then(data => {
-              const productListElement = document.getElementById('productList');
-              const productos = data.productos;
+    // Agregar evento click al botón
+    loadProductsButton.addEventListener('click', () => {
+        // Carga del archivo JSON
+        fetch('/static/ProyectoWebApp/productos.json')
+            .then(response => response.json())
+            .then(data => {
+                const productListElement = document.getElementById('productList');
+                const productos = data.productos;
 
-              // Limpiar el contenido previo del listado
-              productListElement.innerHTML = '';
+                // Limpiar el contenido previo del listado
+                productListElement.innerHTML = '';
 
-              // Recorrer los productos y crear las tarjetas
-              productos.forEach(productos => {
-                  const productCard = document.createElement('div');
-                  productCard.className = 'product-card';
+                // Recorrer los productos y crear las tarjetas
+                productos.forEach(productos => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
 
-                  const title = document.createElement('h3');
-                  title.className = 'text-white'
-                  title.textContent = productos.title;
+                    const title = document.createElement('h3');
+                    title.className = 'text-white'
+                    title.textContent = productos.title;
 
-                  const artist = document.createElement('p');
-                  artist.className = 'text-white'
-                  artist.textContent = 'Artista: ' + productos.artist;
+                    const artist = document.createElement('p');
+                    artist.className = 'text-white'
+                    artist.textContent = 'Artista: ' + productos.artist;
 
-                  const price = document.createElement('p');
-                  price.className = 'text-success'
-                  price.textContent = 'Precio: ' + productos.price;
+                    const price = document.createElement('p');
+                    price.className = 'text-success'
+                    price.textContent = 'Precio: ' + productos.price;
 
-                  const image = document.createElement('img');
-                  image.className = 'product-image';
-                  image.alt = productos.title;
+                    const image = document.createElement('img');
+                    image.className = 'product-image';
+                    image.alt = productos.title;
 
-                  const addButton = document.createElement('button');
+                    const addButton = document.createElement('button');
                     addButton.className = 'btn btn-success';
                     addButton.textContent = 'Agregar';
 
-                  // Agregar imágenes según el título del producto
-                  if (productos.title === 'guitarra') {
-                      image.src = "{% static 'ProyectoWebApp/img/guitarra.jpg' %}";
-                  } else if (productos.title === 'bajo') {
-                      image.src = "{% static 'ProyectoWebApp/img/bajo.jpg' %}";
-                  } else{
-                      image.src = "{% static 'ProyectoWebApp/img/bateria.jpg' %}";
-                  }
+                    // Agregar imágenes según el título del producto
+                    if (productos.title === 'guitarra') {
+                        image.src = "{% static 'ProyectoWebApp/img/guitarra.jpg' %}";
+                    } else if (productos.title === 'bajo') {
+                        image.src = "{% static 'ProyectoWebApp/img/bajo.jpg' %}";
+                    } else {
+                        image.src = "{% static 'ProyectoWebApp/img/bateria.jpg' %}";
+                    }
 
-                  productCard.appendChild(title);
-                  productCard.appendChild(artist);
-                  productCard.appendChild(price);
-                 
-                  productCard.appendChild(image);
+                    productCard.appendChild(title);
+                    productCard.appendChild(artist);
+                    productCard.appendChild(price);
 
-                  productCard.appendChild(addButton);
-                  productListElement.appendChild(productCard);
-              });
-          })
-          .catch(error => console.error(error));
-  });
+                    productCard.appendChild(image);
+
+                    productCard.appendChild(addButton);
+                    productListElement.appendChild(productCard);
+                });
+                console.log(productos)
+            })
+            .catch(error => console.error(error));
+        // Actualizar productos cada 5 segundos (ajusta el intervalo según tus necesidades)
+        setInterval(loadProducts, 5000);
+
+        // Cargar productos inicialmente
+        loadProducts();
+    });
 </script>
 {% endblock %}
