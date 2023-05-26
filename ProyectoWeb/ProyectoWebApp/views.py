@@ -19,20 +19,29 @@ def home(request):
     return render(request, "ProyectoWebApp/home.html")
 
 def servicios(request):
-    
     return render(request, "ProyectoWebApp/servicios.html")
 
-def blog(request):
-    
+
+def blog(request):   
     return render(request, "ProyectoWebApp/blog.html")
 
-def contact(request):
-    
+
+def contact(request):   
     return render(request, "ProyectoWebApp/contact.html")
+
 
 def tienda(request):
     
     return render(request, "ProyectoWebApp/tienda.html")
+
+
+def aprobado(request):
+    
+    return render(request, "ProyectoWebApp/aprobado.html")
+
+
+
+
 
 
 #transbank
@@ -41,7 +50,7 @@ def pago(request):
     buy_order = str(random.randrange(1000000, 99999999))
     session_id = str(random.randrange(1000000, 99999999))
     amount = random.randrange(10000, 1000000)
-    return_url = "http://127.0.0.1:8000/"
+    return_url = "http://127.0.0.1:8000/aprobado"
 
     create_request = {
         "buy_order": buy_order,
@@ -59,30 +68,4 @@ def pago(request):
 
     #4051 8842 3993 7763
 
-    return render(request, 'ProyectoWebApp/pago.html', contexto)
-
-
-#def obtener_productos(request):
-    productos = [
-        {
-            "title": "Canción 1",
-            "artist": "aa",
-            "price": "$12.000",
-            "image": static("static/ProyectoWebApp/img/bajo.jpg")
-        },
-        {
-            "title": "Canción 2",
-            "artist": "a",
-            "price": "$8.99",
-            "image": static("static/ProyectoWebApp/img/bateria.jpg")
-        },
-        {
-            "title": "Canción 3",
-            "artist": "Add",
-            "price": "$7.99",
-            "image": static("static/ProyectoWebApp/img/guitarra.jpg")
-        },
-        # Resto de los productos...
-    ]
-    
-    return JsonResponse({"productos": productos})
+    return render(request, "ProyectoWebApp/pago.html", contexto)

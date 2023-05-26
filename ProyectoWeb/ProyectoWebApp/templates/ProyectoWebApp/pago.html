@@ -102,7 +102,7 @@
                 convertedAmount = amount / exchangeRate;
     
                 $('#result-clp').hide();  // Ocultar monto original en CLP
-                $('#result-usd').html('<h2>Resultado de la conversión</h2>' +
+                $('#result-usd').html('<h2>Su total a pagar es: </h2>' +
                     '<p>Monto convertido: ' + convertedAmount.toLocaleString() + ' USD</p>').show();
             }
     
@@ -110,7 +110,7 @@
                 convertedAmount = amount;  // Mantener el monto original en CLP
     
                 $('#result-usd').hide();  // Ocultar monto original en USD
-                $('#result-clp').html('<h2>Resultado de la conversión</h2>' +
+                $('#result-clp').html('<h2>Su monto original es: </h2>' +
                     '<p>Monto convertido: ' + convertedAmount.toLocaleString() + ' CLP</p>').show();
             }
     

@@ -3,19 +3,19 @@
     {
       "title": "guitarra",
       "artist": "Steler",
-      "price": "$12.000",
+      "price": "$152.000",
       "image": "/static/img/guitarra.jpg"
     },
     {
       "title": "bajo",
       "artist": "Helir",
-      "price": "$8.99",
+      "price": "$870.999",
       "image": "/static/img/bajo.jpg"
     },
     {
       "title": "bateria",
       "artist": "Haufman",
-      "price": "$7.99",
+      "price": "$770.999",
       "image": "/static/img/bateria.jpg"
     }
   ]
