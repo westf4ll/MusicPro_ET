@@ -5,58 +5,64 @@
 {% block content %}
 
 
-<div class="text-center con">
-    <button id="loadProductsButton">Mostrar Productos</button>
-<div id="productList" class="text-center">
+<div class="text-center container">
+  <button id="loadProductsButton">Mostrar Productos</button>
+  <div id="productList" class="text-center">
 
+  </div>
 </div>
-</div>
-
 
 <script>
-    // Obtener referencia al botón
-    const loadProductsButton = document.getElementById('loadProductsButton');
+  // Obtener referencia al botón
+  const loadProductsButton = document.getElementById('loadProductsButton');
 
-    // Agregar evento click al botón
-    loadProductsButton.addEventListener('click', () => {
+  // Agregar evento click al botón
+  loadProductsButton.addEventListener('click', () => {
       // Carga del archivo JSON
-      fetch('/static/ProyectoWebApp/productos.json')
-        .then(response => response.json())
-        .then(data => {
-          const productListElement = document.getElementById('productList');
-          const productos = data.productos;
+      fetch('/static/ProyectoWebApp/productos.json')                                                 
+          .then(response => response.json())
+          .then(data => {
+              const productListElement = document.getElementById('productList');
+              const productos = data.productos;
 
-          // Limpiar el contenido previo del listado
-          productListElement.innerHTML = '';
+              // Limpiar el contenido previo del listado
+              productListElement.innerHTML = '';
 
-          // Recorrer los productos y crear las tarjetas
-          productos.forEach(producto => {
-            const productCard = document.createElement('div');
-            productCard.className = 'product-card';
+              // Recorrer los productos y crear las tarjetas
+              productos.forEach(productos => {
+                  const productCard = document.createElement('div');
+                  productCard.className = 'product-card';
 
-            const title = document.createElement('h3');
-            title.textContent = producto.title;
+                  const title = document.createElement('h3');
+                  title.textContent = productos.title;
 
-            const artist = document.createElement('p');
-            artist.textContent = 'Artista: ' + producto.artist;
+                  const artist = document.createElement('p');
+                  artist.textContent = 'Artista: ' + productos.artist;
 
-            const price = document.createElement('p');
-            price.textContent = 'Precio: ' + producto.price;
+                  const price = document.createElement('p');
+                  price.textContent = 'Precio: ' + productos.price;
 
-            const image = document.createElement('img');
-            image.className = 'product-image';
-            image.src = "{% static 'ProyectoWebApp/img/bateria.jpg' %}";
-            image.alt = producto.title;
+                  const image = document.createElement('img');
+                  image.className = 'product-image';
+                  image.alt = productos.title;
 
-            productCard.appendChild(title);
-            productCard.appendChild(artist);
-            productCard.appendChild(price);
-            productCard.appendChild(image);
+                  // Agregar imágenes según el título del producto
+                  if (productos.title === 'guitarra') {
+                      image.src = "{% static 'ProyectoWebApp/img/guitarra.jpg' %}";
+                  } else if (productos.title === 'bajo') {
+                      image.src = "{% static 'ProyectoWebApp/img/bajo.jpg' %}";
+                  } else{
+                      image.src = "{% static 'ProyectoWebApp/img/bateria.jpg' %}";
+                  }
 
-            productListElement.appendChild(productCard);
-          });
-        })
-        .catch(error => console.error(error));
-    });
-  </script>
+                  productCard.appendChild(title);
+                  productCard.appendChild(artist);
+                  productCard.appendChild(price);
+                  productCard.appendChild(image);
+                  productListElement.appendChild(productCard);
+              });
+          })
+          .catch(error => console.error(error));
+  });
+</script>
 {% endblock %}

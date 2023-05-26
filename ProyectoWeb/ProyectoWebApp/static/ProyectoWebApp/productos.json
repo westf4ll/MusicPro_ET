@@ -1,22 +1,22 @@
 {
   "productos": [
     {
-      "title": "Canción 1",
-      "artist": "Artista 1",
+      "title": "guitarra",
+      "artist": "Steler",
       "price": "$12.000",
+      "image": "/static/img/guitarra.jpg"
+    },
+    {
+      "title": "bajo",
+      "artist": "Helir",
+      "price": "$8.99",
       "image": "/static/img/bajo.jpg"
     },
     {
-      "title": "Canción 2",
-      "artist": "Artista 2",
-      "price": "$8.99",
-      "image": "/static/img/bateria.jpg"
-    },
-    {
-      "title": "Canción 3",
-      "artist": "Artista 3",
+      "title": "bateria",
+      "artist": "Haufman",
       "price": "$7.99",
-      "image": "/static/img/guitarra.jpg"
+      "image": "/static/img/bateria.jpg"
     }
   ]
 }

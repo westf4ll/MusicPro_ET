@@ -29,7 +29,7 @@
                             <h5 class="card-title">Special title treatment</h5>
                             <p class="card-text mb-0">With supporting text below as a natural lead-in to additional
                                 content.</p>
-                            <img src="{% static 'ProyectoWebApp/img/bajo.jpg' %}" alt="bajo">
+                            <img src="{% static 'ProyectoWebApp/img/bajo.jpg' %}" height="185px" alt="bajo">
                         </div>
                     </div>
                 </li>
@@ -39,7 +39,7 @@
                             <h5 class="card-title">Special title treatment</h5>
                             <p class="card-text mb-0">With supporting text below as a natural lead-in to additional
                                 content.</p>
-                            <img src="{% static 'ProyectoWebApp/img/flauta.jpg' %}" alt="flauta">
+                            <img src="{% static 'ProyectoWebApp/img/flauta.jpg' %}" height="185px" alt="flauta">
                         </div>
                     </div>
                 </li>
@@ -49,7 +49,7 @@
                             <h5 class="card-title">Special title treatment</h5>
                             <p class="card-text mb-0">With supporting text below as a natural lead-in to additional
                                 content.</p>
-                            <img src="{% static 'ProyectoWebApp/img/bateria.jpg' %}" alt="bateria">
+                            <img src="{% static 'ProyectoWebApp/img/bateria.jpg' %}" height="185px" alt="bateria">
                         </div>
                     </div>
                 </li>
@@ -62,25 +62,30 @@
                         {% csrf_token %}
                         <input type="hidden" name="token_ws" value="{{instancia.token}}" />
                         <input class="btn btn-primary" type="submit" value="pagar" />
+
+                       
+
+
                     </form>
+                </div>
+                <div class="col container text-success">
+                    <p class="hidden">Monto a pagar: <span id="amount"></span></p>
+                    <form id="convert-form">
+                        <label for="conversion-type">Convertir a:</label>
+                        <select id="conversion-type">
+                            <option value="usd">USD</option>
+                            <option value="clp">CLP</option>
+                        </select>
+                        <input type="submit" value="Convertir">
+                    </form>
+                    <div id="result-usd"></div>
+                    <div id="result-clp"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col container text-success">
-        <p>Monto a pagar: <span id="amount"></span></p>
-        <form id="convert-form">
-            <label for="conversion-type">Convertir a:</label>
-            <select id="conversion-type">
-                <option value="usd">USD</option>
-                <option value="clp">CLP</option>
-            </select>
-            <input type="submit" value="Convertir">
-        </form>
-        <div id="result-usd"></div>
-        <div id="result-clp"></div>
-    </div>
+    
 
 
 
@@ -89,30 +94,31 @@
         $(document).ready(function () {
             var amount = 0;  // Variable para almacenar el monto generado
             var exchangeRate = 0;  // Variable para almacenar el tipo de cambio
-
+            var convertedAmount = 0;  // Variable para almacenar el monto convertido
+    
             function generateRandomAmount() {
                 amount = Math.floor(Math.random() * 70001) + 15000;  // Generar valor aleatorio entre 15,000 y 85,000
                 $('#amount').text(amount.toLocaleString() + ' CLP');  // Mostrar el monto generado
             }
-
+    
             function convertToUSD() {
-                var convertedAmount = amount / exchangeRate;
-
+                convertedAmount = amount / exchangeRate;
+    
                 $('#result-clp').hide();  // Ocultar monto original en CLP
                 $('#result-usd').html('<h2>Resultado de la conversión</h2>' +
                     '<p>Monto convertido: ' + convertedAmount.toLocaleString() + ' USD</p>').show();
             }
-
+    
             function convertToCLP() {
-                var convertedAmount = amount * exchangeRate;
-
+                convertedAmount = amount;  // Mantener el monto original en CLP
+    
                 $('#result-usd').hide();  // Ocultar monto original en USD
                 $('#result-clp').html('<h2>Resultado de la conversión</h2>' +
                     '<p>Monto convertido: ' + convertedAmount.toLocaleString() + ' CLP</p>').show();
             }
-
+    
             var url = "https://mindicador.cl/api/dolar";
-
+    
             // Obtener el tipo de cambio
             $.get(url, function (data) {
                 if (data && data.serie && data.serie.length > 0) {
@@ -125,16 +131,16 @@
                 $('#result-usd').html('<p>Error en la solicitud de conversión.</p>').show();
                 $('#result-clp').html('<p>Error en la solicitud de conversión.</p>').show();
             });
-
+    
             // Generar el monto aleatorio al cargar la página
             generateRandomAmount();
-
+    
             // Manejar el envío del formulario
             $('#convert-form').submit(function (e) {
                 e.preventDefault();
-
+    
                 var conversionType = $('#conversion-type').val();
-
+    
                 if (conversionType === 'usd') {
                     convertToUSD();
                 } else if (conversionType === 'clp') {

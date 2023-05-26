@@ -62,23 +62,23 @@ def pago(request):
     return render(request, 'ProyectoWebApp/pago.html', contexto)
 
 
-def obtener_productos(request):
+#def obtener_productos(request):
     productos = [
         {
             "title": "Canción 1",
-            "artist": "Artista 1",
+            "artist": "aa",
             "price": "$12.000",
             "image": static("static/ProyectoWebApp/img/bajo.jpg")
         },
         {
             "title": "Canción 2",
-            "artist": "Artista 2",
+            "artist": "a",
             "price": "$8.99",
             "image": static("static/ProyectoWebApp/img/bateria.jpg")
         },
         {
             "title": "Canción 3",
-            "artist": "Artista 3",
+            "artist": "Add",
             "price": "$7.99",
             "image": static("static/ProyectoWebApp/img/guitarra.jpg")
         },
