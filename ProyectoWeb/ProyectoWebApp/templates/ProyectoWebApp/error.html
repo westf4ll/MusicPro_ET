@@ -1,0 +1,21 @@
+{% extends "ProyectoWebApp/base.html" %}
+
+{% load static %} 
+
+{% block content %}
+
+<html>
+<head>
+    <title>Error</title>
+</head>
+<body>
+    <h1>Error</h1>
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% else %}
+        <p>Se produjo un error.</p>
+    {% endif %}
+</body>
+</html>
+
+{% endblock %}

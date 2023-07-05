@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.templatetags.static import static
 from django.http import JsonResponse
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.template import loader 
 from datetime import datetime as dt
 from datetime import timedelta
@@ -26,18 +27,36 @@ def blog(request):
     return render(request, "ProyectoWebApp/blog.html")
 
 
-def contact(request):   
-    return render(request, "ProyectoWebApp/contact.html")
-
-
 def tienda(request):
-    
-    return render(request, "ProyectoWebApp/tienda.html")
+    url = 'https://api.reverb.com/api/listings'
+    headers = {
+        'Authorization': 'Bearer e45ab2c1dce0177f23c85c17dba97dc54767c84e6337957a8779ad1f24885d79',
+        'Content-Type': 'application/json'
+    }
 
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        # La solicitud fue exitosa
+        data = response.json()
+        instrumentos = data.get('listings', [])
+        context = {'instrumentos': instrumentos}
+    else:
+        # La solicitud falló
+        context = {'error_message': 'No se pudieron cargar los productos. Por favor, inténtalo de nuevo más tarde.'}
+
+    return render(request, 'ProyectoWebApp/tienda.html', context)
+    
 
 def aprobado(request):
-    
     return render(request, "ProyectoWebApp/aprobado.html")
+
+def error(request):
+    return render(request, "ProyectoWebApp/error.html")
+
+
+def contact(request):
+    return render(request, "ProyectoWebApp/contact.html")
 
 
 
@@ -69,3 +88,8 @@ def pago(request):
     #4051 8842 3993 7763
 
     return render(request, "ProyectoWebApp/pago.html", contexto)
+
+#api de instrumentos
+
+
+
