@@ -7,26 +7,37 @@
 
 
 <div class="container">
-    <div class="row">
-      {% for instrumento in instrumentos %}
-      <div class="col-md-2 mb-4">
-        <div class="card" style="max-width: 150px;">
-          {% if instrumento.photos %}
-          <img src="{{ instrumento.photos.0.url }}" class="card-img-top" alt="Imagen del producto">
-          {% else %}
-          <img src="{% static 'ProyectoWebApp/images/default-image.jpg' %}" class="card-img-top" alt="Imagen por defecto">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ instrumento.title }}</h5>
-            <div class="card-text">
-              {{ instrumento.description | safe }}
+  <div class="row">
+    {% for instrumento in instrumentos %}
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        {% if instrumento.photos %}
+        <img src="{{ instrumento.photos.0.url }}" class="card-img-top" alt="Imagen del producto">
+        {% else %}
+        <img src="{% static 'ProyectoWebApp/images/default-image.jpg' %}" class="card-img-top" alt="Imagen por defecto">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ instrumento.title }}</h5>
+          <div class="card-text">
+            {% if instrumento.description %}
+            {% if instrumento.description|length > 100 %}
+            <p class="description-text">{{ instrumento.description|truncatechars:100|safe }}</p>
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ instrumento.id }}" aria-expanded="false" aria-controls="collapse{{ instrumento.id }}">Leer más</button>
+            <div class="collapse" id="collapse{{ instrumento.id }}">
+              <p class="description-text">{{ instrumento.description|safe }}</p>
             </div>
-            <p class="card-text">Precio: {{ instrumento.price.display }}</p>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
+            {% else %}
+            <p class="description-text">{{ instrumento.description|safe }}</p>
+            {% endif %}
+            {% endif %}
           </div>
+          <p class="card-text">Precio: <span class="text-success font-weight-bold">{{ instrumento.price.amount|floatformat:2 }} {{ instrumento.price.symbol }}</span></p>
+          <a href="#" class="btn btn-primary">Ver detalles</a>
         </div>
       </div>
-      {% endfor %}
+      <hr> <!-- Línea separadora -->
     </div>
+    {% endfor %}
   </div>
+</div>
 {% endblock %}

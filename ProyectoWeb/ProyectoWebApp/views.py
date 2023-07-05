@@ -27,6 +27,7 @@ def blog(request):
     return render(request, "ProyectoWebApp/blog.html")
 
 
+
 def tienda(request):
     url = 'https://api.reverb.com/api/listings'
     headers = {
@@ -37,12 +38,10 @@ def tienda(request):
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
-        # La solicitud fue exitosa
         data = response.json()
         instrumentos = data.get('listings', [])
         context = {'instrumentos': instrumentos}
     else:
-        # La solicitud falló
         context = {'error_message': 'No se pudieron cargar los productos. Por favor, inténtalo de nuevo más tarde.'}
 
     return render(request, 'ProyectoWebApp/tienda.html', context)
