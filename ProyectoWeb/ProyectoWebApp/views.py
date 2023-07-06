@@ -29,22 +29,32 @@ def blog(request):
 
 
 def tienda(request):
-    url = 'https://api.reverb.com/api/listings'
+    url = "https://api.reverb.com/api/listings"
     headers = {
-        'Authorization': 'Bearer e45ab2c1dce0177f23c85c17dba97dc54767c84e6337957a8779ad1f24885d79',
-        'Content-Type': 'application/json'
+        "Authorization": "Bearer e45ab2c1dce0177f23c85c17dba97dc54767c84e6337957a8779ad1f24885d79",
+        "Content-Type": "application/json",
     }
 
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
         data = response.json()
-        instrumentos = data.get('listings', [])
-        context = {'instrumentos': instrumentos}
-    else:
-        context = {'error_message': 'No se pudieron cargar los productos. Por favor, inténtalo de nuevo más tarde.'}
+        instrumentos = data.get("listings", [])
 
-    return render(request, 'ProyectoWebApp/tienda.html', context)
+        for instrumento in instrumentos:
+            photos = instrumento.get("photos", [])
+            if photos:
+                instrumento["image_url"] = photos[0]["_links"]["large_crop"]["href"]
+            else:
+                instrumento["image_url"] = None
+
+        context = {"instrumentos": instrumentos}
+    else:
+        context = {
+            "error_message": "No se pudieron cargar los productos. Por favor, inténtalo de nuevo más tarde."
+        }
+
+    return render(request, "ProyectoWebApp/tienda.html", context)
     
 
 def aprobado(request):
